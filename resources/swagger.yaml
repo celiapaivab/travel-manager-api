@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  title: Travel Manager API
+  version: 1.0.0
+  description: API para gerenciamento de viagens e destinos.
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/users/register:
+    post:
+      summary: Registro de usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, email, password]
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: Usuário registrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400":
+          description: Campos obrigatórios ausentes
+        "409":
+          description: Email já cadastrado
+  /api/users/login:
+    post:
+      summary: Login de usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login bem-sucedido
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        "401":
+          description: Usuário ou senha inválidos
+  /api/users/user:
+    get:
+      summary: Buscar informações do usuário logado
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Dados do usuário
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "401":
+          description: Token não fornecido
+        "403":
+          description: Token inválido
+        "404":
+          description: Usuário não encontrado
+  /api/destinations:
+    post:
+      summary: Registrar destino
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, status]
+              properties:
+                name:
+                  type: string
+                status:
+                  type: string
+                  enum: [wishlist, planning, completed]
+                details:
+                  type: string
+                date:
+                  type: string
+                  format: date
+      responses:
+        "201":
+          description: Destino criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Destination"
+        "400":
+          description: Nome ou status ausente ou inválido
+        "401":
+          description: Token não fornecido
+        "403":
+          description: Token inválido
+    get:
+      summary: Listar destinos do usuário
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Lista de destinos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Destination"
+        "401":
+          description: Token não fornecido
+        "403":
+          description: Token inválido
+  /api/destinations/{id}:
+    get:
+      summary: Buscar detalhes de um destino
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Detalhes do destino
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Destination"
+        "401":
+          description: Token não fornecido
+        "403":
+          description: Token inválido
+        "404":
+          description: Destino não encontrado
+    put:
+      summary: Atualizar informações do destino
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                status:
+                  type: string
+                  enum: [wishlist, planning, completed]
+                details:
+                  type: string
+                date:
+                  type: string
+                  format: date
+      responses:
+        "200":
+          description: Destino atualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Destination"
+        "400":
+          description: Status inválido
+        "401":
+          description: Token não fornecido
+        "403":
+          description: Token inválido
+        "404":
+          description: Destino não encontrado
+    delete:
+      summary: Remover destino
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Destino removido com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Destino removido com sucesso
+        "401":
+          description: Token não fornecido
+        "403":
+          description: Token inválido
+        "404":
+          description: Destino não encontrado
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+    Destination:
+      type: object
+      properties:
+        id:
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          enum: [wishlist, planning, completed]
+        details:
+          type: string
+        date:
+          type: string
+          format: date

@@ -1,37 +1,29 @@
-const { Destination, destinations, STATUS } = require("../model/destination");
-
-function generateId() {
-  return Math.random().toString(36).substr(2, 9);
-}
+const destinationService = require("../service/destinationService");
 
 exports.create = (req, res) => {
   const { name, status, details, date } = req.body;
-  if (!name || !status) {
-    return res.status(400).json({ message: "Nome e status são obrigatórios" });
-  }
-  if (!STATUS.includes(status)) {
-    return res.status(400).json({ message: "Status inválido" });
-  }
-  const destination = new Destination({
-    id: generateId(),
+  const { destination, error } = destinationService.createDestination({
     userId: req.user.id,
     name,
     status,
-    details: details || "",
-    date: date || null,
+    details,
+    date,
   });
-  destinations.push(destination);
+  if (error) {
+    return res.status(error.status).json({ message: error.message });
+  }
   res.status(201).json(destination);
 };
 
 exports.list = (req, res) => {
-  const userDestinations = destinations.filter((d) => d.userId === req.user.id);
+  const userDestinations = destinationService.listDestinations(req.user.id);
   res.json(userDestinations);
 };
 
 exports.get = (req, res) => {
-  const destination = destinations.find(
-    (d) => d.id === req.params.id && d.userId === req.user.id
+  const destination = destinationService.getDestination(
+    req.user.id,
+    req.params.id
   );
   if (!destination)
     return res.status(404).json({ message: "Destino não encontrado" });
@@ -39,28 +31,27 @@ exports.get = (req, res) => {
 };
 
 exports.update = (req, res) => {
-  const destination = destinations.find(
-    (d) => d.id === req.params.id && d.userId === req.user.id
-  );
-  if (!destination)
-    return res.status(404).json({ message: "Destino não encontrado" });
   const { name, status, details, date } = req.body;
-  if (status && !STATUS.includes(status)) {
-    return res.status(400).json({ message: "Status inválido" });
+  const { destination, error } = destinationService.updateDestination(
+    req.user.id,
+    req.params.id,
+    { name, status, details, date }
+  );
+  if (error) {
+    return res.status(error.status).json({ message: error.message });
   }
-  if (name !== undefined) destination.name = name;
-  if (status !== undefined) destination.status = status;
-  if (details !== undefined) destination.details = details;
-  if (date !== undefined) destination.date = date;
   res.json(destination);
 };
 
 exports.remove = (req, res) => {
-  const index = destinations.findIndex(
-    (d) => d.id === req.params.id && d.userId === req.user.id
+  const result = destinationService.removeDestination(
+    req.user.id,
+    req.params.id
   );
-  if (index === -1)
-    return res.status(404).json({ message: "Destino não encontrado" });
-  destinations.splice(index, 1);
-  res.status(200).json({ message: "Destino removido com sucesso" });
+  if (result.error) {
+    return res
+      .status(result.error.status)
+      .json({ message: result.error.message });
+  }
+  res.status(200).json({ message: result.message });
 };

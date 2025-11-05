@@ -3,10 +3,21 @@ const { expect } = require("chai");
 require("dotenv").config();
 const postLogin = require("../fixtures/postLogin.json");
 
+function generateUniqueUsername() {
+  const base = postLogin.username;
+  const unique = `${base}_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+  return unique;
+}
+
 describe("POST /api/users/register", () => {
+
   const baseUrl = process.env.BASE_URL;
   const endpoint = "/api/users/register";
-  const validUser = { ...postLogin };
+  let validUser;
+
+  beforeEach(() => {
+    validUser = { ...postLogin, username: generateUniqueUsername() };
+  });
 
   it("01 - Registrar novo usuário com dados válidos", async () => {
     const response = await request(baseUrl)

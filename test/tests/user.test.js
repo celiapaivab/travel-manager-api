@@ -49,6 +49,6 @@ describe("GET /api/users/user", () => {
     const response = await request(baseUrl)
       .get(endpoint)
       .set("Authorization", `Bearer ${tokenExpirado}`);
-    expect(404).to.include(response.status);
+      expect(response.status).to.equal(404);
   });
 });

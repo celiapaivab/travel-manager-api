@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "mocha \"test/tests/**/*.js\" --reporter mochawesome --reporter-options reportDir=mochawesome-report,reportFilename=index,quiet=true"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,12 @@
     "jsonwebtoken": "^9.0.2",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "chai": "^6.2.0",
+    "dotenv": "^17.2.3",
+    "mocha": "^11.7.5",
+    "mochawesome": "^7.1.4",
+    "supertest": "^7.1.4"
   }
 }

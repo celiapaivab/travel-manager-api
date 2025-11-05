@@ -1,0 +1,208 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 6,
+    "passes": 4,
+    "pending": 0,
+    "failures": 2,
+    "start": "2025-11-05T19:28:42.612Z",
+    "end": "2025-11-05T19:28:42.667Z",
+    "duration": 55,
+    "testsRegistered": 6,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "2b143e41-5947-4c8c-bc9d-288c5f0724fe",
+      "title": "",
+      "fullFile": "/Users/celiapaiva/M2.0/travel-manager-api/test/tests/register.test.js",
+      "file": "/test/tests/register.test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "76053d66-efea-48c8-8d29-0773639e321e",
+          "title": "POST /api/users/register",
+          "fullFile": "/Users/celiapaiva/M2.0/travel-manager-api/test/tests/register.test.js",
+          "file": "/test/tests/register.test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "01 - Registrar novo usuário com dados válidos",
+              "fullTitle": "POST /api/users/register 01 - Registrar novo usuário com dados válidos",
+              "timedOut": false,
+              "duration": 43,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const response = await request(baseUrl)\n  .post(endpoint)\n  .set(\"Content-Type\", \"application/json\")\n  .send(validUser);\nexpect(response.status).to.equal(201);\nexpect(response.body).to.have.property(\"id\");\nexpect(response.body).to.have.property(\"username\", validUser.username);",
+              "err": {
+                "message": "AssertionError: expected 409 to equal 201",
+                "estack": "AssertionError: expected 409 to equal 201\n    at Context.<anonymous> (test/tests/register.test.js:16:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+                "diff": "- 409\n+ 201\n"
+              },
+              "uuid": "b609fdcb-b8be-435e-a9d9-4dd75acd1ea8",
+              "parentUUID": "76053d66-efea-48c8-8d29-0773639e321e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "02 - Registrar novo usuário com username inválido",
+              "fullTitle": "POST /api/users/register 02 - Registrar novo usuário com username inválido",
+              "timedOut": false,
+              "duration": 2,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const response = await request(baseUrl)\n  .post(endpoint)\n  .set(\"Content-Type\", \"application/json\")\n  .send({ username: 123456, password: validUser.password });\nexpect(response.status).to.equal(400);",
+              "err": {
+                "message": "AssertionError: expected 409 to equal 400",
+                "estack": "AssertionError: expected 409 to equal 400\n    at Context.<anonymous> (test/tests/register.test.js:26:32)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+                "diff": "- 409\n+ 400\n"
+              },
+              "uuid": "02eb14fc-177b-4f24-9840-fdba1480af40",
+              "parentUUID": "76053d66-efea-48c8-8d29-0773639e321e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "03 - Registrar novo usuário com senha inválida",
+              "fullTitle": "POST /api/users/register 03 - Registrar novo usuário com senha inválida",
+              "timedOut": false,
+              "duration": 2,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const response = await request(baseUrl)\n  .post(endpoint)\n  .set(\"Content-Type\", \"application/json\")\n  .send({ username: validUser.username, password: \"123\" });\nexpect(response.status).to.equal(400);",
+              "err": {},
+              "uuid": "ac14310e-c2b8-416b-9d3f-6172887a8f5d",
+              "parentUUID": "76053d66-efea-48c8-8d29-0773639e321e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "04 - Registrar novo usuário com username ausente",
+              "fullTitle": "POST /api/users/register 04 - Registrar novo usuário com username ausente",
+              "timedOut": false,
+              "duration": 2,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const response = await request(baseUrl)\n  .post(endpoint)\n  .set(\"Content-Type\", \"application/json\")\n  .send({ username: \"\", password: validUser.password });\nexpect(response.status).to.equal(400);",
+              "err": {},
+              "uuid": "bc2014c6-9ba0-4eff-8ab6-b56d58bdff22",
+              "parentUUID": "76053d66-efea-48c8-8d29-0773639e321e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "05 - Registrar novo usuário com senha ausente",
+              "fullTitle": "POST /api/users/register 05 - Registrar novo usuário com senha ausente",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const response = await request(baseUrl)\n  .post(endpoint)\n  .set(\"Content-Type\", \"application/json\")\n  .send({ username: validUser.username, password: \"\" });\nexpect(response.status).to.equal(400);",
+              "err": {},
+              "uuid": "f935c4c0-9827-4c2b-a5a8-675008a457ea",
+              "parentUUID": "76053d66-efea-48c8-8d29-0773639e321e",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "06 - Registrar novo usuário já existente",
+              "fullTitle": "POST /api/users/register 06 - Registrar novo usuário já existente",
+              "timedOut": false,
+              "duration": 1,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const response = await request(baseUrl)\n  .post(endpoint)\n  .set(\"Content-Type\", \"application/json\")\n  .send({ username: \"celia.bruno\" , password: \"123456\" });\nexpect(response.status).to.equal(409);",
+              "err": {},
+              "uuid": "a50f52cf-6a91-48f6-9610-b25536bb3bc0",
+              "parentUUID": "76053d66-efea-48c8-8d29-0773639e321e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ac14310e-c2b8-416b-9d3f-6172887a8f5d",
+            "bc2014c6-9ba0-4eff-8ab6-b56d58bdff22",
+            "f935c4c0-9827-4c2b-a5a8-675008a457ea",
+            "a50f52cf-6a91-48f6-9610-b25536bb3bc0"
+          ],
+          "failures": [
+            "b609fdcb-b8be-435e-a9d9-4dd75acd1ea8",
+            "02eb14fc-177b-4f24-9840-fdba1480af40"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 51,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.7.5"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": true,
+        "reportFilename": "index",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "mochawesome-report",
+        "reportFilename": "index",
+        "quiet": "true"
+      },
+      "version": "6.3.2"
+    }
+  }
+}

@@ -8,35 +8,44 @@ function generateId() {
 }
 
 exports.register = (req, res) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) {
+  const { username, password } = req.body;
+  if (!username || !password) {
     return res
       .status(400)
       .json({ message: "Todos os campos são obrigatórios" });
   }
-  if (users.find((u) => u.email === email)) {
-    return res.status(409).json({ message: "Email já cadastrado" });
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "A senha deve ter pelo menos 6 caracteres" });
+  }
+  if (users.find((u) => u.username === username)) {
+    return res.status(409).json({ message: "Nome de usuário já cadastrado" });
   }
   const hashedPassword = bcrypt.hashSync(password, 8);
   const user = new User({
     id: generateId(),
-    name,
-    email,
+    username,
     password: hashedPassword,
   });
   users.push(user);
-  res.status(201).json({ id: user.id, name: user.name, email: user.email });
+  res.status(201).json({ id: user.id, username: user.username });
 };
 
 exports.login = (req, res) => {
-  const { email, password } = req.body;
-  const user = users.find((u) => u.email === email);
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res
+      .status(400)
+      .json({ message: "Nome de usuário e senha são obrigatórios" });
+  }
+  const user = users.find((u) => u.username === username);
   if (!user)
     return res.status(401).json({ message: "Usuário ou senha inválidos" });
   if (!bcrypt.compareSync(password, user.password)) {
     return res.status(401).json({ message: "Usuário ou senha inválidos" });
   }
-  const token = jwt.sign({ id: user.id, email: user.email }, SECRET, {
+  const token = jwt.sign({ id: user.id, username: user.username }, SECRET, {
     expiresIn: "1h",
   });
   res.json({ token });
@@ -47,8 +56,6 @@ exports.me = (req, res) => {
   if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
   res.json({
     id: user.id,
-    name: user.name,
-    email: user.email,
-    phone: user.phone,
+    username: user.username,
   });
 };

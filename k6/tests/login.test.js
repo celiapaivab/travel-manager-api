@@ -1,7 +1,7 @@
 import http from "k6/http";
 import { check, sleep } from "k6";
 import { pegarBaseURL } from "../utils/variaveis.js";
-const postLogin = JSON.parse(open('../fixtures/postLogin.json'));
+const postLogin = JSON.parse(open("../fixtures/postLogin.json"));
 
 export const options = {
   stages: [
@@ -16,25 +16,16 @@ export const options = {
 };
 
 export default function () {
-  const url = pegarBaseURL() + "/api/users/register";
-
-  const payload = JSON.stringify({
-    username: `${postLogin.username}_${Date.now()}_${Math.floor(
-      Math.random() * 1000
-    )}`,
-    password: postLogin.password,
-  });
-
+  const url = pegarBaseURL() + "/api/users/login";
+  const payload = JSON.stringify(postLogin);
   const params = {
     headers: {
       "Content-Type": "application/json",
     },
   };
-
-  let res = http.post(url, payload, params);
-
+  const res = http.post(url, payload, params);
   check(res, {
-    "status is 201": (res) => res.status === 201,
+    "Validar que o status é 200": (r) => r.status === 200,
   });
 
   sleep(1);

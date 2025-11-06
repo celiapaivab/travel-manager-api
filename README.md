@@ -101,11 +101,6 @@ O relatório será gerado em `html-report.html` e pode ser visualizado no navega
 - Helpers para autenticação e criação de destinos estão em `k6/helpers/`.
 - Os thresholds e stages seguem o padrão para simular carga progressiva.
 
-## Observações
-
-- Os dados são armazenados apenas em memória (serão perdidos ao reiniciar a aplicação)
-- Use a documentação Swagger para exemplos de requisições e respostas
-
 ## Estrutura do Projeto
 
 - `app.js`: Ponto de entrada da aplicação
@@ -125,3 +120,8 @@ O relatório será gerado em `html-report.html` e pode ser visualizado no navega
   - `utils/`: Variáveis e configurações para K6
 - `README.md`: Documentação do projeto
 - `package.json` e `package-lock.json`: Dependências e scripts
+
+## Observações
+
+- Os dados são armazenados apenas em memória (serão perdidos ao reiniciar a aplicação)
+- Use a documentação Swagger para exemplos de requisições e respostas

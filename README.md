@@ -51,28 +51,24 @@ Acesse a documentação interativa em: [http://localhost:3000/api-docs](http://l
 - `PUT /api/destinations/{id}`: Atualizar informações do destino (JWT obrigatório)
 - `DELETE /api/destinations/{id}`: Remover destino (JWT obrigatório)
 
-## Estrutura do Projeto
+## Tecnologias e Ferramentas Utilizadas
 
-- `app.js`: Ponto de entrada da aplicação
-- `routes/`: Rotas da API
-- `controllers/`: Lógica dos endpoints
-- `service/`: Serviços e middlewares (ex: autenticação)
-- `model/`: Modelos e armazenamento em memória
-- `resources/`: Documentação Swagger
-- `test/tests/`: Testes funcionais automatizados
+- Node.js e Express (API backend)
+- JWT (autenticação)
+- Swagger/OpenAPI (documentação)
 
 ## Testes Funcionais
 
-Os testes funcionais automatizados estão localizados em `test/tests/` e cobrem todos os principais endpoints da API:
+Os testes funcionais automatizados estão localizados em `test/tests/` e cobrem todos os principais endpoints da API.
 
-- `register.test.js`: Registro de usuário (`POST /api/users/register`)
-- `login.test.js`: Login de usuário (`POST /api/users/login`)
-- `user.test.js`: Informações do usuário logado (`GET /api/users/user`)
-- `createDestination.test.js`: Criação de destino (`POST /api/destinations`)
-- `getDestinations.test.js`: Listagem de destinos (`GET /api/destinations`)
-- `getSingleDestination.test.js`: Detalhes de destino (`GET /api/destinations/{id}`)
-- `updateDestination.test.js`: Atualização de destino (`PUT /api/destinations/{id}`)
-- `deleteDestination.test.js`: Remoção de destino (`DELETE /api/destinations/{id}`)
+### Tecnologias e ferramentas
+
+- Mocha (framework de testes)
+- Chai (assertions)
+- Supertest (requisições HTTP)
+- Mochawesome (relatórios)
+
+### Como executar os testes funcionais
 
 Para executar todos os testes e gerar relatório:
 
@@ -82,7 +78,50 @@ npm test
 
 O relatório será gerado na pasta `mochawesome-report`.
 
+## Testes de Performance (K6)
+
+Os testes de performance automatizados estão localizados em `k6/tests/` e utilizam K6 com mocha e chai para simular carga nos principais endpoints da API.
+
+### Tecnologias e ferramentas
+
+- K6 (testes de performance)
+- mocha/chai para K6 (asserts)
+
+### Como executar os testes de performance
+
+Execute o comando abaixo para rodar qualquer teste de performance:
+
+```bash
+K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_EXPORT=html-report.html k6 run k6/tests/<nome-do-teste>.test.js
+```
+
+O relatório será gerado em `html-report.html` e pode ser visualizado no navegador.
+
+- Os testes criam dados dinâmicos para garantir resultados realistas.
+- Helpers para autenticação e criação de destinos estão em `k6/helpers/`.
+- Os thresholds e stages seguem o padrão para simular carga progressiva.
+
 ## Observações
 
 - Os dados são armazenados apenas em memória (serão perdidos ao reiniciar a aplicação)
 - Use a documentação Swagger para exemplos de requisições e respostas
+
+## Estrutura do Projeto
+
+- `app.js`: Ponto de entrada da aplicação
+- `controllers/`: Lógica dos endpoints (destinationController.js, userController.js)
+- `routes/`: Rotas da API (destinationRoutes.js, userRoutes.js)
+- `service/`: Serviços e middlewares (auth.js, destinationService.js, userService.js)
+- `model/`: Modelos e armazenamento em memória (destination.js, user.js)
+- `resources/swagger.yaml`: Documentação Swagger/OpenAPI
+- `test/`: Testes funcionais
+  - `fixtures/`: Dados de exemplo para testes
+  - `helpers/`: Funções utilitárias para testes
+  - `tests/`: Arquivos de teste para cada endpoint
+- `k6/`: Testes de performance
+  - `fixtures/`: Dados de exemplo para performance
+  - `helpers/`: Funções utilitárias para performance
+  - `tests/`: Arquivos de teste de carga para cada endpoint
+  - `utils/`: Variáveis e configurações para K6
+- `README.md`: Documentação do projeto
+- `package.json` e `package-lock.json`: Dependências e scripts

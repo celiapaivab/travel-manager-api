@@ -24,22 +24,6 @@ API Rest para gerenciamento de viagens e destinos.
 - JWT obrigatório para acessar endpoints de destinos
 - Envie o token no header: `Authorization: Bearer <token>`
 
-## Documentação Swagger
-
-Acesse a documentação interativa em: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
-
-## Como rodar API do projeto
-
-1. Instale as dependências:
-   ```bash
-   npm install
-   ```
-2. Inicie a API:
-   ```bash
-   npm start
-   ```
-3. Acesse a documentação Swagger para testar os endpoints.
-
 ## Endpoints principais
 
 - `POST /api/users/register`: Registro de usuário
@@ -56,6 +40,28 @@ Acesse a documentação interativa em: [http://localhost:3000/api-docs](http://l
 - Node.js e Express (API backend)
 - JWT (autenticação)
 - Swagger/OpenAPI (documentação)
+
+## Como começar
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/celiapaivab/travel-manager-api.git
+   cd travel-manager-api
+   ```
+2. Crie o arquivo `.env` na raiz do projeto com as variáveis necessárias, por exemplo:
+   ```env
+   BASE_URL="http://localhost:3000"
+   ```
+3. Instale as dependências:
+   ```bash
+   npm install
+   ```
+4. Inicie a API:
+   ```bash
+   npm start
+   ```
+5. Acesse a documentação Swagger para testar os endpoints:
+   [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
 ## Testes Funcionais
 

@@ -2,6 +2,7 @@ const request = require("supertest");
 const { expect } = require("chai");
 require("dotenv").config();
 const postLogin = require("../fixtures/postLogin.json");
+const { registerUser } = require("../helpers/registerUser.js");
 
 describe("POST /api/users/login", () => {
   const baseUrl = process.env.BASE_URL;
@@ -10,10 +11,7 @@ describe("POST /api/users/login", () => {
 
   before(async () => {
     // Garante que o usuário válido existe
-    await request(baseUrl)
-      .post("/api/users/register")
-      .set("Content-Type", "application/json")
-      .send(validUser);
+    await registerUser(validUser);
   });
 
   it("07 - Fazer login de usuário com credenciais válidas", async () => {
@@ -27,10 +25,11 @@ describe("POST /api/users/login", () => {
   });
 
   it("08 - Fazer login de usuário com nome inválido", async () => {
+    const invalidName = "invalid_name";
     const response = await request(baseUrl)
       .post(endpoint)
       .set("Content-Type", "application/json")
-      .send({ username: 123456, password: validUser.password });
+      .send({ username: invalidName, password: validUser.password });
     expect(response.status).to.equal(401);
   });
 

@@ -30,10 +30,11 @@ describe("POST /api/users/register", () => {
   });
 
   it("02 - Registrar novo usuário com username inválido", async () => {
+    const invalidName = 123456;
     const response = await request(baseUrl)
       .post(endpoint)
       .set("Content-Type", "application/json")
-      .send({ username: 123456, password: validUser.password });
+      .send({ username: invalidName, password: validUser.password });
     expect(response.status).to.equal(400);
   });
 

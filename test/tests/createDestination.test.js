@@ -4,6 +4,7 @@ require("dotenv").config();
 const postDest = require("../fixtures/postDestinations.json");
 const postLogin = require("../fixtures/postLogin.json");
 const { obterToken } = require("../helpers/authentication.js");
+const { registerUser } = require("../helpers/registerUser.js");
 
 describe("POST /api/destinations", () => {
   const baseUrl = process.env.BASE_URL;
@@ -12,10 +13,7 @@ describe("POST /api/destinations", () => {
 
   before(async () => {
     // Garante que o usuário existe e obtém token
-    await request(baseUrl)
-      .post("/api/users/register")
-      .set("Content-Type", "application/json")
-      .send(postLogin);
+    await registerUser(postLogin);
     token = await obterToken(postLogin.username, postLogin.password);
   });
 
@@ -83,7 +81,7 @@ describe("POST /api/destinations", () => {
   });
 
   it("22 - Registrar informações de um novo destino sem autenticação válida", async () => {
-    const tokenVazio = ""
+    const tokenVazio = "";
     const response = await request(baseUrl)
       .post(endpoint)
       .set("Authorization", `Bearer ${tokenVazio}`)

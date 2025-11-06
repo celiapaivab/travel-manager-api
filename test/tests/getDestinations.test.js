@@ -5,6 +5,7 @@ const postDest = require("../fixtures/postDestinations.json");
 const postLogin = require("../fixtures/postLogin.json");
 const { obterToken } = require("../helpers/authentication.js");
 const { createDestination } = require("../helpers/destination.js");
+const { registerUser } = require("../helpers/registerUser.js");
 
 describe("GET /api/destinations", () => {
   const baseUrl = process.env.BASE_URL;
@@ -13,10 +14,7 @@ describe("GET /api/destinations", () => {
 
   before(async () => {
     // Garante que o usuário existe e obtém token
-    await request(baseUrl)
-      .post("/api/users/register")
-      .set("Content-Type", "application/json")
-      .send(postLogin);
+    await registerUser(postLogin);
     token = await obterToken(postLogin.username, postLogin.password);
     // Cria pelo menos um destino usando o helper
     await createDestination(token, postDest);

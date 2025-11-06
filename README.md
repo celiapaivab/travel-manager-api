@@ -28,7 +28,7 @@ API Rest para gerenciamento de viagens e destinos.
 
 Acesse a documentação interativa em: [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
 
-## Como rodar o projeto
+## Como rodar API do projeto
 
 1. Instale as dependências:
    ```bash
@@ -59,6 +59,28 @@ Acesse a documentação interativa em: [http://localhost:3000/api-docs](http://l
 - `service/`: Serviços e middlewares (ex: autenticação)
 - `model/`: Modelos e armazenamento em memória
 - `resources/`: Documentação Swagger
+- `test/tests/`: Testes funcionais automatizados
+
+## Testes Funcionais
+
+Os testes funcionais automatizados estão localizados em `test/tests/` e cobrem todos os principais endpoints da API:
+
+- `register.test.js`: Registro de usuário (`POST /api/users/register`)
+- `login.test.js`: Login de usuário (`POST /api/users/login`)
+- `user.test.js`: Informações do usuário logado (`GET /api/users/user`)
+- `createDestination.test.js`: Criação de destino (`POST /api/destinations`)
+- `getDestinations.test.js`: Listagem de destinos (`GET /api/destinations`)
+- `getSingleDestination.test.js`: Detalhes de destino (`GET /api/destinations/{id}`)
+- `updateDestination.test.js`: Atualização de destino (`PUT /api/destinations/{id}`)
+- `deleteDestination.test.js`: Remoção de destino (`DELETE /api/destinations/{id}`)
+
+Para executar todos os testes e gerar relatório:
+
+```bash
+npm test
+```
+
+O relatório será gerado na pasta `mochawesome-report`.
 
 ## Observações
 

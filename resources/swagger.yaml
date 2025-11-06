@@ -88,8 +88,6 @@ paths:
           description: Token não fornecido
         "403":
           description: Token inválido
-        "404":
-          description: Usuário não encontrado
   /api/destinations:
     post:
       summary: Registrar destino

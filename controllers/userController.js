@@ -25,7 +25,7 @@ exports.login = (req, res) => {
 
 exports.me = (req, res) => {
   const user = userService.getUserById(req.user.id);
-  if (!user) return res.status(404).json({ message: "Usuário não encontrado" });
+  if (!user) return res.status(403).json({ message: "Token inválido" });
   res.json({
     id: user.id,
     username: user.username,

@@ -33,7 +33,7 @@ jobs:
           cp -r mochawesome-report/* mochawesome-report-artifact/
       - name: Upload Mochawesome report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mochawesome-report
           path: mochawesome-report-artifact/
